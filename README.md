@@ -1,7 +1,7 @@
 # PROFET
 PROFET: PROFiling-based CNN Training Latency prohET for GPU Cloud Instances
 
-[Demo Page](https://anonymous-profet.github.io/profet/demo/demo.html)
+[Demo Page](https://ddps-lab.github.io/profet/demo/index.html)
 
 ### Run Docker
 ```
