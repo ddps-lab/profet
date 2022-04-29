@@ -1,0 +1,99 @@
+:root {
+    --primary-color: #3E5C76;
+    --sub-color : #4F5D75;
+    --background-color : #f8f6f0;
+}
+body {
+    background: var(--background-color);
+}
+.main {
+    width : 1250px;
+    height : 100%;
+    text-align : center;
+    margin: 0 auto;
+    padding-top: 90px;
+}
+.title {
+    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1250px;
+    padding: 5px calc((100% - 1210px)/2);
+    background: #2D3142;
+    z-index: 10;
+    box-shadow: 0px 0px 10px #000;
+}
+.title h2 {
+    margin-bottom: 0;
+    font-family: "Roboto Light";
+}
+.title h2 a{
+    color : #fff;
+    text-decoration: none;
+}
+#nav-bar {
+    position: absolute;
+    float: right;
+    right: calc((100% - 1210px)/2 + 20px);
+    bottom: 0px;
+}
+#nav-bar button {
+    font-size: 16px;
+    background: none;
+    border : none;
+    cursor: pointer;
+    font-family: "Roboto Light";
+    color: rgba(255,255,255,0.6);
+}
+#nav-bar button:hover {
+    color: #748CAB;
+    transition: color 0.5s ;
+}
+h3 {
+     margin: 20px 0 0 0;
+ }
+h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(87, 87, 87);
+    margin: 0;
+}
+.top-layout {
+    width : 100%;
+    min-height: 100vh;
+}
+header {
+    text-align: left;
+}
+.page-body {
+    text-align: left;
+    line-height: 26px;
+    padding : 20px;
+}
+.page-title {
+    font-weight: bold;
+}
+.page-body h5 {
+    font-weight: bold;
+    color : #303030;
+}
+.page-body img {
+    width: 80%;
+    margin: 0 10%;
+}
+.indent {
+    padding-left: 20px;
+}
+.code{
+    color : #fff;
+    border-radius: 10px;
+    padding : 20px 15px 0 15px;
+    width: fit-content;
+    background-color: #696969;
+}
+Footer {
+    width: 100%;
+    height: 200px;
+    background: #2D3142;
+}
