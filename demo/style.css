@@ -42,12 +42,13 @@
     text-align: left;
 }
 .upload-prof-data {
-    margin: 20px auto 40px auto;
+    margin: 20px auto 0 auto;
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 #upload-text {
+    width: 50%;
     color: var(--primary-color);
     border: none;
     background-color: #fff;
@@ -58,6 +59,32 @@
 }
 #upload-text:focus x{
     outline: none;
+}
+.upload-radio {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.mdl-radio__label {
+    font-size: 14px;
+}
+.upload_contents {
+    width: calc(100% - 220px);
+    position: relative;
+}
+.file-upload-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.text-section {
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    height: 50px;
+    left: 0;
+    resize: none;
 }
 .upload-file-button {
     padding: 0 !important;

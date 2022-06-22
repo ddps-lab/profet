@@ -33,7 +33,7 @@
                 <p class="section-title">PROFET Anchor Prediction</p>
                 <div class='section-description'>PROFET Anchor Prediction System can forecast latencies on various target GPU instances based on profiling data measured on the anchor GPU instance. Therefore, JSON type profiling data is required to use this system, and example data can be used in the link below for testing. You can check <a href='./documentation.html'>documentation</a> for more information. <br/><br/>
                     <div>
-                        <button class="mdl-button mdl-js-button test-file-download test-file-a" onclick=download('test-file-a')>Test Data A</button>
+                        <button class="mdl-button mdl-js-button test-file-download test-file-a" onclick=sampleData('test-file-a')>Test Data A</button>
                         <div class="description-help-tip help-tip-a">
                             <p>Model: VGG16<br>
                                 Pixel size: 128x128x3<br>
@@ -41,7 +41,7 @@
                                 Anchor instance: g3s.xlarge<br>
                                 Anchor latency: 122400 us</p>
                         </div>
-                        <button class="mdl-button mdl-js-button test-file-download test-file-b" onclick=download('test-file-b')>Test Data B</button>
+                        <button class="mdl-button mdl-js-button test-file-download test-file-b" onclick=sampleData('test-file-b')>Test Data B</button>
                         <div class="description-help-tip help-tip-b">
                             <p>Model: VGG16<br>
                                 Pixel size: 128x128x3<br>
@@ -63,14 +63,29 @@
                 <!-- Anchor Prediction - Upload Profiling Data -->
                 <div class="upload-prof-data">
                     <span class="anchor-label">Profiling Feature</span>
-                    <input type="text" id="upload-text" value="upload file" readonly>
-                    <button class="mdl-button mdl-js-button mdl-button--raised upload-file-button">
-                        <label for="upload-file">Upload</label>
-                    </button>
-                    <form method="POST" enctype="multipart/form-data" id="ajax-upload-form" name="upload-form">
-                        <input type="file" name="upload-file" id="upload-file" onchange="loadFile(this)" required>
-                        <input type="button" value="Submit" id='ajax-submit'>
-                    </form>
+                    <div class="upload_contents">
+                        <div class="file-upload-section">
+                            <input type="text" id="upload-text" value="upload file" readonly>
+                            <button class="mdl-button mdl-js-button mdl-button--raised upload-file-button">
+                                <label for="upload-file">Upload</label>
+                            </button>
+                            <form method="POST" enctype="multipart/form-data" id="ajax-upload-form" name="upload-form">
+                                <input type="file" name="upload-file" id="upload-file" onchange="loadFile(this)" required>
+                                <input type="button" value="Submit" id='ajax-submit'>
+                            </form>
+                        </div>
+                        <textarea class="text-section"></textarea>
+                    </div>
+                </div>
+                <div class="upload-radio">
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                        <input type="radio" id="option-1" class="mdl-radio__button upload-opt" name="upload_opt" value="Text" checked>
+                        <span class="mdl-radio__label">Text</span>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                        <input type="radio" id="option-2" class="mdl-radio__button upload-opt" name="upload_opt" value="File">
+                        <span class="mdl-radio__label">File</span>
+                    </label>
                 </div>
                 <!-- Anchor Prediction - Input Anchor Latency -->
                 <div class="input-anchor-latency">
@@ -149,11 +164,11 @@
                 <div class="select-scaler-size-type">
                     <span class='size-type-span'>Target Size</span>
                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-bs">
-                        <input type="radio" id="option-bs" class="mdl-radio__button" name="options" value="bs" checked>
+                        <input type="radio" id="option-bs" class="mdl-radio__button scalar-radio" name="options" value="bs" checked>
                         <span class="mdl-radio__label radio_label_first">Batch size</span>
                     </label>
                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-ps">
-                        <input type="radio" id="option-ps" class="mdl-radio__button" name="options" value="ps">
+                        <input type="radio" id="option-ps" class="mdl-radio__button scalar-radio" name="options" value="ps">
                         <span class="mdl-radio__label">Pixel size</span>
                     </label>
                 </div>

@@ -1,13 +1,58 @@
+//trim function
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    };
+}
+// string이 json형식인지 확인하는 함수
+function isJsonString(str) {
+    try{
+        JSON.parse(str);
+    }catch (e){
+        return false;
+    }
+    return true;
+}
 //Basic Rendering
+let sampleA, sampleB;
+fetch('./src/test_A.json')
+    .then(response => {
+        return response.json();
+    })
+    .then(jsondata => sampleA = jsondata);
+fetch('./src/test_B.json')
+    .then(response => {
+        return response.json();
+    })
+    .then(jsondata => sampleB = jsondata);
 $(function(){
     // Anchor Submit Action
     $('#ajax-submit').on('click', function(event){
-        if (document.getElementById("upload-file").value.length !== 0) {
-            document.querySelector('.mdl-js-spinner').style.visibility = 'visible'
-            setTimeout(anchorSubmit, 10)
+        let radio = document.querySelectorAll('.upload-opt');
+        let upload_type;
+        radio.forEach((node) => node.checked ? upload_type = node.value : null)
+        if (upload_type ==='File') {
+            if (document.getElementById("upload-file").value.length !== 0) {
+                document.querySelector('.mdl-js-spinner').style.visibility = 'visible'
+                setTimeout(anchorSubmit, 10)
+            } else {
+                alert("Please submit the file.")
+                document.querySelector('.upload-file-button').focus()
+            }
         }else {
-            alert("Please submit the file.")
-            document.querySelector('.upload-file-button').focus()
+            let text = document.getElementsByClassName('text-section')[0].value;
+            text == null ?  text = "" : text.trim();
+            if (!isJsonString(text)){
+                alert("Please use JSON format.");
+                document.querySelector('.text-section').focus()
+            }
+            else if (text.length!==0){
+                document.querySelector('.mdl-js-spinner').style.visibility = 'visible'
+                setTimeout(TextAnchorSubmit(text), 10)
+            } else {
+                alert("Please fill the text box.")
+                document.querySelector('.text-section').focus()
+            }
         }
         return false
     })
@@ -28,7 +73,7 @@ $(function(){
         options: scalerDefaultOption
     })
     // Scaler Target Size Change
-    $('.mdl-radio__button').on('click', function(event){
+    $('.scalar-radio').on('click', function(event){
         let latencyUnit = event.target.value;
         let minNotice = document.querySelector('#min-notice');
         let maxNotice = document.querySelector('#max-notice');
@@ -58,7 +103,23 @@ $(function(){
             rangeSliderLatency.innerHTML = 0
         }
     }
-
+    $('.upload-opt').on('click', function (event){
+        let uploadUnit = event.target.value;
+        let uploadDiv = document.querySelector('.file-upload-section');
+        let textDiv = document.querySelector('.text-section');
+        if (uploadUnit==="Text"){
+            uploadDiv.style = 'visibility: hidden';
+            textDiv.style = 'display: block';
+            document.querySelector('#ajax-upload-form').reset();
+            // document.querySelector('#ajax-upload-form').value = "";
+            document.querySelector('#upload-text').value = "upload file";
+        }
+        else {
+            uploadDiv.style = 'display: flex';
+            textDiv.style = 'display: none';
+            document.querySelector('.text-section').value = '';
+        }
+    })
 });
 function download(testfile){ //axios 사용해서 anchor instance Test Json File direct download 하는 함수
     if(testfile == 'test-file-a'){
@@ -82,14 +143,81 @@ function download(testfile){ //axios 사용해서 anchor instance Test Json File
             link.click()
         })
 }
+function sampleData(testfile){
+    let textBox = document.querySelector('.text-section');
+    let anchorInput = document.querySelector('#anchor-latency');
+    if(testfile == 'test-file-a'){
+        const str = JSON.stringify(sampleA);
+        textBox.value = str;
+        anchorInput.value = 122400;
+        // const bytes = new TextEncoder().encode(str);
+        // const blob = new Blob([bytes], {
+        //     type: "application/json;charset=utf-8"
+        // });
+        // let sample = new File([blob], 'test_A.json',{type:"application/json"});
+        // formData.append('upload-file', sample);
+        // formData.append('anchor_instance', 'g3s_xlarge');
+        // formData.append('anchor_latency', 122400);
+
+    }
+    else {
+        const str = JSON.stringify(sampleB);
+        textBox.value = str;
+        anchorInput.value = 1529870;
+        // const str = JSON.stringify(sampleB);
+        // const bytes = new TextEncoder().encode(str);
+        // const blob = new Blob([bytes], {
+        //     type: "application/json;charset=utf-8"
+        // });
+        // let sample = new File([blob], 'test_B.json',{type:"application/json"});
+        // formData.append('upload-file', sample);
+        // formData.append('anchor_instance', 'g3s_xlarge');
+        // formData.append('anchor_latency', 1529870);
+    }
+    // $.ajax({
+    //     type: "POST",
+    //     url: 'https://vxummx2cra.execute-api.us-east-1.amazonaws.com/profet-dev/predict',
+    //     header: {
+    //         "Content-Type": "application/json",	//Content-Type 설정
+    //         "X-HTTP-Method-Override": "POST",
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Access-Control-Allow-Methods': 'POST',
+    //         'Access-Control-Allow-Headers': '*',
+    //         'Access-Control-Allow-Age': 3600
+    //     },
+    //     dataType: "json",
+    //     data: formData,
+    //     AccessControlAllowOrigin: '*',
+    //     crossDomain: true,
+    //     contentType: false,
+    //     async: false,
+    //     enctype: 'multipart/form-data',
+    //     processData: false,
+    //     success: function (data, status) {
+    //         let result = data['body']
+    //         result = result.replace("\"", "");
+    //         result = result.split('&');
+    //         for (let j = 0; j < 3; j++) {
+    //             instanceList[result[j + 3]].latency = Math.round(result[j] * 100) / 100;
+    //         }
+    //         showAnchorResult();
+    //         document.querySelector('.mdl-js-spinner').style.visibility = 'hidden'
+    //     },
+    //     error: function (e) {
+    //         console.log("ERROR : ", e);
+    //         $("#btnSubmit").prop("disabled", false);
+    //         alert(e.message);
+    //     }
+    // });
+}
 // Anchor Prediction 을 위해 ajax 를 통해 File 을 업로드 하는 함수
 // anchorChart 함수를 호출하여 Chart 를 Rendering 함
+// radio 버튼의 값에 따라 우선순위
 function anchorSubmit(){
     let form = $("#ajax-upload-form");
     let formData = new FormData(form[0]);
     formData.append('anchor_instance', $("#anchor-instance").val());
     formData.append('anchor_latency', $("#anchor-latency").val());
-
     $.ajax({
     type: "POST",
     url: 'https://vxummx2cra.execute-api.us-east-1.amazonaws.com/profet-dev/predict',
@@ -117,13 +245,62 @@ function anchorSubmit(){
             instanceList[result[j + 3]].latency = Math.round(result[j] * 100) / 100;
         }
         showAnchorResult();
-        document.querySelector('.mdl-js-spinner').style.visibility = 'hidden'
+        document.querySelector('.mdl-js-spinner').style.visibility = 'hidden';
+        formData.forEach(e => console.log(e));
     },
     error: function (e) {
         console.log("ERROR : ", e);
         $("#btnSubmit").prop("disabled", false);
         alert(e.message);
     }
+    });
+}
+//text값을 파일로 만들어서 값을 전달
+function TextAnchorSubmit(data) {
+    //text를 파일 형태로 생성
+    let formData = new FormData();
+    const bytes = new TextEncoder().encode(data);
+    const blob = new Blob([bytes], {
+        type: "application/json;charset=utf-8"
+    });
+    let sample = new File([blob], 'textData.json',{type:"application/json"});
+    formData.append('upload-file', sample);
+    formData.append('anchor_instance', $("#anchor-instance").val());
+    formData.append('anchor_latency', $("#anchor-latency").val());
+    $.ajax({
+        type: "POST",
+        url: 'https://vxummx2cra.execute-api.us-east-1.amazonaws.com/profet-dev/predict',
+        header: {
+            "Content-Type": "application/json",	//Content-Type 설정
+            "X-HTTP-Method-Override": "POST",
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Age': 3600
+        },
+        dataType: "json",
+        data: formData,
+        AccessControlAllowOrigin: '*',
+        crossDomain: true,
+        contentType: false,
+        async: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (data, status) {
+            let result = data['body']
+            result = result.replace("\"", "");
+            result = result.split('&');
+            for (let j = 0; j < 3; j++) {
+                instanceList[result[j + 3]].latency = Math.round(result[j] * 100) / 100;
+            }
+            showAnchorResult();
+            document.querySelector('.mdl-js-spinner').style.visibility = 'hidden'
+        },
+        error: function (e) {
+            console.log("ERROR : ", e);
+            $("#btnSubmit").prop("disabled", false);
+            alert(e.message);
+        }
     });
 }
 
