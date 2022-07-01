@@ -74,7 +74,7 @@
                                 <input type="button" value="Submit" id='ajax-submit'>
                             </form>
                         </div>
-                        <textarea class="text-section"></textarea>
+                        <textarea class="text-section">[{"Device_Equal":7.072,"Device_Conv2DBackpropFilter":80197.464,"Device__FusedConv2D":51425.799,"Host_Dataset":536.093,"Host__HostSend":14.893,"Device_Transpose":213.763,"Device_Tile":9.024,"Device_MaxPool":2614.742,"Device_LogicalAnd":3.872,"Device_DivNoNan":29.056,"Device_ReluGrad":15183.457,"Device__Recv":887.944,"Device_IDLE":7657.465,"Host_GatherV2":1008.261,"Device_MatMul":11745.634,"Device_Softmax":40.288,"Device__Send":5.952,"Device_BiasAdd":32.096,"Device_Cast":26.881,"Device_Mul":17.504,"Host_IDLE":613483.756,"Host_Identity":1.338,"Device_BiasAddGrad":4893.638,"Host_LogicalAnd":55.308,"Device_AssignAddVariableOp":39.328,"Device_ResourceApplyGradientDescent":13546.865,"Host_FlushSummaryWriter":40.043,"Host_IteratorGetNext":37.743,"Device_Conv2DBackpropInput":49027.479,"Host__Send":2897.232,"Device_Sum":15.328,"Device_ArgMax":64.673,"Device_MaxPoolGrad":7410.109,"Host_WriteSummary":22.644,"Device_Relu":16.576,"Device_SoftmaxCrossEntropyWithLogits":206.082}]</textarea>
                     </div>
                 </div>
                 <div class="upload-radio">
@@ -94,7 +94,7 @@
                             <p>Batch latency for workload measured at your anchor instance. If you enter this value, PROFET predict by median ensemble model with three different models (Simple Linear Regressor, Random Forest, DNN). If you don't, PROFET predict by mean ensemble model with two models (Random Forest, DNN) </p>
                         </div>
                     </label>
-                    <input type="text" placeholder="0.0" value="" id="anchor-latency"/>
+                    <input type="text" placeholder="0.0" value="122400" id="anchor-latency"/>
                 </div>
                 <!-- Anchor Prediction - Submit Button -->
                 <div class="submit-section">
