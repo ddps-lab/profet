@@ -15,7 +15,7 @@ sudo docker run -it tensorflow/tensorflow:2.5.0 bash
 apt-get update
 apt-get install git -y
 cd home
-git clone https://github.com/anonymous-profet/profet.git
+git clone https://github.com/ddps-lab/profet.git
 cd profet
 pip install -r requirements.txt
 ```
